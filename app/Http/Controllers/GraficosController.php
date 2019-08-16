@@ -12,6 +12,7 @@ use App\Gauge;
 use App\Geo;
 use App\Linha;
 use App\Pizza;
+use App\Scatter;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class GraficosController extends Controller
@@ -215,15 +216,13 @@ class GraficosController extends Controller
     public function graficoScatter()
     {
         $datatable = \Lava::DataTable();
+        $scatters = Scatter::select('age as 0', 'weight as 1')->get()->toArray();
         $datatable->addNumberColumn('Age');
         $datatable->addNumberColumn('Weight');
-
-        for ($i=0; $i < 30; $i++) {
-            $datatable->addRow([rand(20,30), rand(150,250)]);
-        }
+        $datatable->addRows($scatters);
 
         \Lava::ScatterChart('AgeWeight', $datatable, [
-            'width' => 400,
+            'width' => 1350,
             'legend' => [
                 'position' => 'none'
             ],
