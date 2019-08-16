@@ -1,0 +1,9 @@
+insert into combos (year, sales, expensive, net_worth) values ('2011-01-01', 15, 25, 30);
+insert into combos (year, sales, expensive, net_worth) values ('2012-01-01', 25, 25, 30);
+insert into combos (year, sales, expensive, net_worth) values ('2013-01-01', 45, 45, 50);
+insert into combos (year, sales, expensive, net_worth) values ('2014-01-01', 55, 55, 60);
+insert into combos (year, sales, expensive, net_worth) values ('2015-01-01', 65, 65, 70);
+insert into combos (year, sales, expensive, net_worth) values ('2016-01-01', 75, 85, 90);
+insert into combos (year, sales, expensive, net_worth) values ('2017-01-01', 35, 45, 60);
+insert into combos (year, sales, expensive, net_worth) values ('2018-01-01', 45, 55, 60);
+insert into combos (year, sales, expensive, net_worth) values ('2019-01-01', 5, 10, 30);

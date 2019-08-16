@@ -4,6 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Area;
 use App\Barra;
+use App\Calendario;
+use App\Coluna;
+use App\Combo;
+use App\Donut;
+use App\Gauge;
+use App\Geo;
+use App\Linha;
+use App\Pizza;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class GraficosController extends Controller
@@ -46,16 +54,11 @@ class GraficosController extends Controller
     public function graficoCalendario()
     {
         $sales = \Lava::DataTable();
+        $calendarios = Calendario::select('date as 0', 'solds as 1')->get()->toArray();
+        $sales->addDateColumn('Date', new DateFormat(array('formatType' => 'short', 'pattern' => 'dd/MM/yyyy', 'timeZone' => '-3')))
+            ->addNumberColumn('Orders')
+            ->addRows($calendarios);
 
-        $sales->addDateColumn('Date')
-            ->addNumberColumn('Orders');
-
-        foreach (range(1, 12) as $month) {
-            for ($a = 0; $a < 20; $a++) {
-                $day = rand(1, 30);
-                $sales->addRow(["2014-${month}-${day}", rand(0, 100)]);
-            }
-        }
 
         \Lava::CalendarChart('Sales', $sales, [
             'title' => 'Cars Sold',
@@ -75,7 +78,7 @@ class GraficosController extends Controller
             ],
             'colorAxis' => [
                 'values' => [0, 100],
-                'colors' => ['black', 'green'],
+                'colors' => ['white', 'black'],
             ],
         ]);
         return view('graficos.calendario');
@@ -84,15 +87,11 @@ class GraficosController extends Controller
     public function graficoColuna()
     {
         $finances = \Lava::DataTable();
-
-        $finances->addDateColumn('Year')
+        $colunas = Coluna::select('year as 0', 'sales as 1', 'expensive as 2')->get()->toArray();
+        $finances->addDateColumn('Year', new DateFormat(array('pattern' => 'yyyy')))
             ->addNumberColumn('Sales')
             ->addNumberColumn('Expenses')
-            ->setDateTimeFormat('Y')
-            ->addRow(['2004', 1000, 400])
-            ->addRow(['2005', 1170, 460])
-            ->addRow(['2006', 660, 1120])
-            ->addRow(['2007', 1030, 54]);
+            ->addRows($colunas);
 
         \Lava::ColumnChart('Finances', $finances, [
             'title' => 'Company Performance',
@@ -107,16 +106,12 @@ class GraficosController extends Controller
     public function graficoCombo()
     {
         $finances = \Lava::DataTable();
-
+        $combos = Combo::select('year as 0', 'sales as 1', 'expensive as 2', 'net_worth as 3')->get()->toArray();
         $finances->addDateColumn('Year')
             ->addNumberColumn('Sales')
             ->addNumberColumn('Expenses')
             ->addNumberColumn('Net Worth')
-            ->addRow(['2009-1-1', 1100, 490, 1324])
-            ->addRow(['2010-1-1', 1000, 400, 1524])
-            ->addRow(['2011-1-1', 1400, 450, 1351])
-            ->addRow(['2012-1-1', 1250, 600, 1243])
-            ->addRow(['2013-1-1', 1100, 550, 1462]);
+            ->addRows($combos);
 
         \Lava::ComboChart('Finances', $finances, [
             'title' => 'Company Performance',
@@ -138,28 +133,24 @@ class GraficosController extends Controller
     public function graficoDonut()
     {
         $reasons = \Lava::DataTable();
-
+        $donuts = Donut::select('type as 0', 'votes as 1')->get()->toArray();
         $reasons->addStringColumn('Reasons')
             ->addNumberColumn('Percent')
-            ->addRow(['Check Reviews', 5])
-            ->addRow(['Watch Trailers', 2])
-            ->addRow(['See Actors Other Work', 4])
-            ->addRow(['Settle Argument', 89]);
+            ->addRows($donuts);
 
         \Lava::DonutChart('IMDB', $reasons, [
             'title' => 'Reasons I visit IMDB',
         ]);
         return view('graficos.donut');
     }
+
     public function graficoGauge()
     {
         $temps = \Lava::DataTable();
-
+        $gauges = Gauge::select('type as 0', 'desempenho as 1')->get()->toArray();
         $temps->addStringColumn('Type')
             ->addNumberColumn('Value')
-            ->addRow(['CPU', rand(0, 100)])
-            ->addRow(['Case', rand(0, 100)])
-            ->addRow(['Graphics', rand(0, 100)]);
+            ->addRows($gauges);
 
         \Lava::GaugeChart('Temps', $temps, [
             'width' => 400,
@@ -180,15 +171,10 @@ class GraficosController extends Controller
     public function graficoGeo()
     {
         $popularity = \Lava::DataTable();
-
+        $geos = Geo::select('country as 0', 'popularity as 1')->get()->toArray();
         $popularity->addStringColumn('Country')
                 ->addNumberColumn('Popularity')
-                ->addRow(array('Germany', 200))
-                ->addRow(array('United States', 300))
-                ->addRow(array('Brazil', 400))
-                ->addRow(array('Canada', 500))
-                ->addRow(array('France', 600))
-                ->addRow(array('RU', 700));
+                ->addRows($geos);
 
         \Lava::GeoChart('Popularity', $popularity);
         return view('graficos.geo');
@@ -197,22 +183,14 @@ class GraficosController extends Controller
     public function graficoPizza()
     {
         $reasons = \Lava::DataTable();
-
+        $pizzas = Pizza::select('type as 0', 'votes as 1')->get()->toArray();
         $reasons->addStringColumn('Reasons')
             ->addNumberColumn('Percent')
-            ->addRow(['Check Reviews', 5])
-            ->addRow(['Watch Trailers', 2])
-            ->addRow(['See Actors Other Work', 4])
-            ->addRow(['Settle Argument', 89]);
+            ->addRows($pizzas);
 
         \Lava::PieChart('IMDB', $reasons, [
             'title' => 'Reasons I visit IMDB',
             'is3D' => true,
-            'slices' => [
-                ['offset' => 0.2],
-                ['offset' => 0.25],
-                ['offset' => 0.3],
-            ],
         ]);
 
         return view('graficos.pizza');
@@ -221,29 +199,12 @@ class GraficosController extends Controller
     public function graficoLinha()
     {
         $temperatures = \Lava::DataTable();
-
+        $linhas = Linha::select('date as 0', 'min as 1', 'med as 2', 'max as 3')->get()->toArray();
         $temperatures->addDateColumn('Date')
             ->addNumberColumn('Max Temp')
             ->addNumberColumn('Mean Temp')
             ->addNumberColumn('Min Temp')
-            ->addRow(['2014-10-1', 67, 65, 62])
-            ->addRow(['2014-10-2', 68, 65, 61])
-            ->addRow(['2014-10-3', 68, 62, 55])
-            ->addRow(['2014-10-4', 72, 62, 52])
-            ->addRow(['2014-10-5', 61, 54, 47])
-            ->addRow(['2014-10-6', 70, 58, 45])
-            ->addRow(['2014-10-7', 74, 70, 65])
-            ->addRow(['2014-10-8', 75, 69, 62])
-            ->addRow(['2014-10-9', 69, 63, 56])
-            ->addRow(['2014-10-10', 64, 58, 52])
-            ->addRow(['2014-10-11', 59, 55, 50])
-            ->addRow(['2014-10-12', 65, 56, 46])
-            ->addRow(['2014-10-13', 66, 56, 46])
-            ->addRow(['2014-10-14', 75, 70, 64])
-            ->addRow(['2014-10-15', 76, 72, 68])
-            ->addRow(['2014-10-16', 71, 66, 60])
-            ->addRow(['2014-10-17', 72, 66, 60])
-            ->addRow(['2014-10-18', 63, 62, 62]);
+            ->addRows($linhas);
 
         \Lava::LineChart('Temps', $temperatures, [
             'title' => 'Weather in October',

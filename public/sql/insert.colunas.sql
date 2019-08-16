@@ -1,0 +1,9 @@
+insert into colunas (year, sales, expensive) values ('2011-01-01', 15, 25);
+insert into colunas (year, sales, expensive) values ('2012-01-01', 25, 25);
+insert into colunas (year, sales, expensive) values ('2013-01-01', 45, 45);
+insert into colunas (year, sales, expensive) values ('2014-01-01', 55, 55);
+insert into colunas (year, sales, expensive) values ('2015-01-01', 65, 65);
+insert into colunas (year, sales, expensive) values ('2016-01-01', 75, 85);
+insert into colunas (year, sales, expensive) values ('2017-01-01', 35, 45);
+insert into colunas (year, sales, expensive) values ('2018-01-01', 45, 55);
+insert into colunas (year, sales, expensive) values ('2019-01-01', 5, 10);
