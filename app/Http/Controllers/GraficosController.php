@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Area;
+use App\Barra;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class GraficosController extends Controller
@@ -31,17 +32,11 @@ class GraficosController extends Controller
     public function graficoBarra()
     {
         $votes = \Lava::DataTable();
-
+        $barras = Barra::select('food as 0', 'likes as 1', 'unlikes as 2')->get()->toArray();
         $votes->addStringColumn('Food Poll')
             ->addNumberColumn('Likes')
-            ->addNumberColumn('Unklikes');
-            $array = array('Tacos', 'Salad', 'Pizza', 'Apples', 'Fish', 'Paçoca');
-            foreach($array as $item)
-            {
-                $likes = rand(1, 5000);
-                $unlikes = 5000 - $likes;
-                $votes->addRow([$item, $likes, $unlikes]);
-            }
+            ->addNumberColumn('Unklikes')
+            ->addRows($barras);
 
         \Lava::BarChart('Votes', $votes);
 
