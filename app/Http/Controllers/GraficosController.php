@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Area;
 use Khill\Lavacharts\DataTables\Formats\DateFormat;
 
 class GraficosController extends Controller
@@ -14,19 +15,10 @@ class GraficosController extends Controller
     public function graficoArea()
     {
         $population = \Lava::DataTable();
-
+        $areas = Area::select('year as 0', 'quantity as 1')->get()->toArray();
         $population->addDateColumn('Ano', new DateFormat(array('pattern' => 'yyyy')))
             ->addNumberColumn('Número de pessoas')
-            ->addRow(['2006-01-01 00:00:00', 623452])
-            ->addRow(['2007-01-01 00:00:00', 685034])
-            ->addRow(['2008-01-01 00:00:00', 716845])
-            ->addRow(['2009-01-01 00:00:00', 757254])
-            ->addRow(['2010-01-01 00:00:00', 778034])
-            ->addRow(['2011-01-01 00:00:00', 792353])
-            ->addRow(['2012-01-01 00:00:00', 839657])
-            ->addRow(['2013-01-01 00:00:00', 842367])
-            ->addRow(['2014-01-01 00:00:00', 873490]);
-
+            ->addRows($areas);
         \Lava::AreaChart('Populacao', $population, [
             'title' => 'Tamanho da População',
             'legend' => [
