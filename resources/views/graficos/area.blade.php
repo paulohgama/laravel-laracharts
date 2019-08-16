@@ -64,7 +64,9 @@
         </style>
     </head>
     <body>
+        @include('include')
         <div id="pop_div">
             {!!\Lava::render('AreaChart', 'Populacao', 'pop_div')!!}
         </div>
+    </body>
 </html>
