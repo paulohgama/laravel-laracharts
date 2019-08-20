@@ -25,3 +25,9 @@ Route::group(['prefix' => 'grafico'], function () {
     Route::get('/linha', 'GraficosController@graficoLinha')->name('grafico.linha');
     Route::get('/scatter', 'GraficosController@graficoScatter')->name('grafico.scatter');
 });
+
+Route::group(['prefix' => 'operatrix'], function () {
+    Route::get('/geral', 'OportunidadeController@geral')->name('operatrix.geral');
+    Route::get('/performance', 'OportunidadeController@performance')->name('operatrix.performance');
+    Route::get('/vendas', 'OportunidadeController@vendas')->name('operatrix.vendas');
+});

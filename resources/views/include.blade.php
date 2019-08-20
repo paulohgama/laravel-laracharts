@@ -13,7 +13,10 @@
         <a href="{{route('grafico.gauge')}}">Gauge</a>
         <a href="{{route('grafico.geo')}}">Geo</a>
         <a href="{{route('grafico.pizza')}}">Pizza</a>
-        <a href="{{route('grafico.linha')}}">Lina</a>
+        <a href="{{route('grafico.linha')}}">Linha</a>
         <a href="{{route('grafico.scatter')}}">Scatter</a>
+        <a href="{{route('operatrix.geral')}}">Geral</a>
+        <a href="{{route('operatrix.performance')}}">Performance</a>
+        <a href="{{route('operatrix.vendas')}}">Vendas</a>
     </div>
 </div>
